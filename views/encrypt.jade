@@ -1,0 +1,21 @@
+doctype html
+html
+ head 
+  title Encryption Testing
+  link(rel="stylesheet" href="/stylesheets/main.css")
+  -each s in scripts
+   script(type="javascript" src=s)
+ body
+  h3 Encrypt 
+  input(type="text" id="input")
+  br
+  input(type="submit" id="calculate")
+  br
+  br
+  input(type="text" disabled="true" id="result")
+  h3= message
+
+
+
+
+  

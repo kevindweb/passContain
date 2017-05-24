@@ -1,0 +1,33 @@
+doctype html
+html
+ head
+  title You are logged in!
+ body
+  h1 Welcome! 
+  h2= username
+  a(id="passwordLink" style="text-decoration:underline;cursor:pointer;") Let's make some passwords for the database
+  script.
+   window.onload=function() {
+    console.log('ready1');
+    document.getElementById("passwordLink").onclick=function() {
+     console.log('ready');
+     var myForm = document.createElement("form");
+     var myInput = document.createElement("input");
+     var mySubmit = document.createElement("input");
+     myForm.action="/passwordPage";
+     // the href of the link
+     myForm.method="POST";
+     myForm.style="display:none";
+     myInput.setAttribute("value",'#{username}');
+     myInput.setAttribute("type","text");
+     myInput.setAttribute("name","oldUsername");
+     mySubmit.setAttribute("type","submit");
+     mySubmit.setAttribute("id","submitButton");
+     myForm.appendChild(myInput);
+     myForm.appendChild(mySubmit);
+     document.body.appendChild(myForm);
+     document.getElementById('submitButton').click();
+     return false; 
+     // cancel the actual link
+    }
+   }

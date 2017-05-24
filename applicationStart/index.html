@@ -1,0 +1,105 @@
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>passContain</title>
+</head>
+<body>
+
+    <div id="container" class="container">
+        <h1 id="greeting" class="noShow">Welcome<span id="userNamez"></span></h1>
+        <div id="introduction">
+            <label for="userName">Enter Your User Name</label>
+            <input type="text" id="userName" class="form-control text-center" value="" placeholder="johnSmith">
+            <br>
+            <button class="btn btn-primary" id="submitName">Enter</button>
+        </div>
+        <br>
+        <br>
+        <i class="fa fa-lock text-center noShow" id="lockIcon"></i>
+        <br>
+        <br>
+        <h2 id="upwardsGreeting" class="noShow">You are now entering passContain{}</h2>
+        <a href="#homePage" id="pageDown" class="noShow"></a>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div id="homePage" class="noDisplay">
+          <!-- in between these comments is the modal for information about the application -->
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"><i class="fa fa-info-circle" style="font-size: 20px;"></i></button>
+          <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header" style="color: black">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Application Information</h4>
+                    </div>
+                    <div class="modal-body" style="color: black;">
+                      <h3 style="text-decoration: underline;">*You can access this information at any time*</h3>
+                      <h4>passContain{} is a protection application to help you stay on track with your work and to help you feel secure. <br><br> As a user, you are able to upload passwords, files, and other information and text to your app after logging in.</h4>
+                      <h4>Why use this application?</h4>
+                      <ul>
+                        <li>No connection to internet makes the app safe on your computer</li>
+                        <li>3 levels of possible security</li>
+                        <li>Ease and functionality</li>
+                        <li>FREE!</li>
+                      </ul>
+                    </div>
+                    <div class="modal-footer" style="color: black;">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                  
+                </div>
+            </div>
+          <!-- this is the outer extent of the information modal -->
+            <h4 id="userID"></h4>
+            <div id="userPageDIV">
+                <h2>Start your secure network</h2>
+                    <br>
+                <div class="well well-small">
+                    <h3>6 number passcode</h3>
+                    <div class="small">
+                        <p class="text-center">Type any 6 numbers and remember them!</p>
+                        <div class="numericPassword">
+                            <input type="text" id="num1" value="">
+                        </div> 
+                        <div class="numericPassword">
+                            <input type="text" id="num2" value="">
+                        </div> 
+                        <div class="numericPassword">
+                            <input type="text" id="num3" value="">
+                        </div> 
+                        <div class="numericPassword">
+                            <input type="text" id="num4" value="">
+                        </div>
+                        <div class="numericPassword">
+                            <input type="text" id="num5" value="">
+                        </div>
+                        <div class="numericPassword">
+                            <input type="text" id="num6" value="">
+                        </div>
+                        <br>
+                        <br>
+                        <button class="btn btn-primary">Set Password</button>
+                    </div>
+                </div>
+                <div class="well well-small">
+                    <h3>10 character password</h3>
+                </div>
+                <div class="well well-small">
+                    <h3>Security questions</h3>
+                </div>
+                <div class="well well-small">
+                    <h3>Check out the vault</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="./scripts/passContain.js"></script>
+</body>
+</html>

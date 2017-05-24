@@ -1,0 +1,20 @@
+doctype html
+html
+ head 
+  title ready
+ body
+  h3 Log In
+  form(name="loginForm" action="/mongoLogin" method="POST")
+   label(for="emailLogin") Email:
+   input(type="email" name="emailLogin")
+   br
+   label(for="passwordLogin") Password:
+   input(type="text" name="passwordLogin")
+   br
+   input(type="submit")
+  h3= message
+
+
+
+
+  
