@@ -1,6 +1,16 @@
 h3 {
   color: red;
 }
+@font-face {
+  font-family: arcFont;
+  src: url(/fontsImg/ArchitectsDaughter.ttf);
+}
+@font-face {
+  font-family: 'Glyphs';
+  src:  url(/fontsImg/glyphicons-halflings-regular.woff2) format('woff2'),
+        url(/fontsImg/glyphicons-halflings-regular.woff) format('woff'),
+        url(/fontsImg/glyphicons-halflings-regular.ttf) format('ttf');
+}
 html,
 body {
   width: 100%;
@@ -23,4 +33,3 @@ a {
 .subtitle {
   color: gray;
 }
-

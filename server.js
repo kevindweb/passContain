@@ -1,29 +1,26 @@
-var express = require('express');
-var path = require('path');
-var app     = express();
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+var express = require('express'),
+    bodyParser = require('body-parser'),
+    app = express(),
+    path = require('path'),
+    http = require('http'),
+    viewPath = path.join(__dirname+'/public'),
+    jsPath = path.join(__dirname+'/public/javascripts'),
+    cssPath = path.join(__dirname+'/public/stylesheets'),
+    fontImgPath = path.join(__dirname+'/public/fontsAndImages'),
+		mongoose = require('./bin/mongo.js');
 
 app.use(bodyParser.urlencoded({
 	extended: false
 }));
 
-
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('bin', path.join(__dirname, 'bin'));
+app.set('public',viewPath);
+app.use('/scripts',express.static(jsPath));
+app.use('/styles',express.static(cssPath));
+app.use('/fontsImg',express.static(fontImgPath));
+
 app.set('view engine', 'jade');
 
-app.use('/public',express.static(__dirname+'/public'));
-app.use(errorHandler);
-function errorHandler (err, req, res, next) {
-  res.status(500);
-  consolelog(500);
-  res.render('error', { status:500,error: JSON.stringify(err) })
-}
 // app.get('/public/:sourceType/:sourceFile',function(req,res){
 // 	var sourceType = req.params.sourceType;
 // 	var sourceFile = req.params.sourceFile;
@@ -32,7 +29,10 @@ function errorHandler (err, req, res, next) {
 
 // send me to the root of the application
 app.get('/', function(req,res){
-	res.sendFile(path.join(__dirname+'/public/html/index.html'));
+	res.sendFile(path.join(__dirname+'/public/html/login.html'));
+});
+app.get('/contact', function(req, res){
+	res.sendFile(path.join(__dirname+'/public/html/contact.html'));
 });
 //send the js files
 app.get('/login.js', function(req, res){
@@ -59,6 +59,34 @@ app.get('/mongodb', function(req,res){
 	res.render('indexFile', {message: "We're ready for this mongodb connection"});
 });
 
+app.get('/login', function(req,res){
+  res.redirect('/');
+});
+
+app.post('/signupForm',function(req,res){
+  var data = req.body;
+  if(data){
+    res.send('Success');
+  } else{
+    res.send('Failure to log in.');
+  }
+});
+app.post('/loginForm',function(req,res){
+  var data = req.body;
+  if(data){
+    res.send('Success');
+  } else{
+    res.send('Failure to log in.');
+  }
+});
+app.post('/adminForm',function(req,res){
+  var data = req.body;
+  if(data){
+    res.send('Success');
+  } else{
+    res.send('Failure to log in.');
+  }
+});
 // get the passwords page
 app.post('/passwordPage', function(req,res){
 	var data = req.body.oldUsername;
@@ -70,9 +98,14 @@ app.post('/makeFiles',function(req,res){
 	var data = req.body.usernameLogged;
 	res.render('makeFiles',{data:data});
 });
-// end of mongodb
-app.listen(3001);
 
-console.log("Running at Port 3001");
+app.updateErrorPage = function(pageName){
+  // put page name in a mongodb collection
+}
+// end of mongodb
+
+app.use(function(req,res){
+  res.status(404).sendFile(path.join(__dirname+'/public/html/error.html'));
+});
 
 module.exports = app;

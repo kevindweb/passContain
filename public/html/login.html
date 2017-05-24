@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="/styles/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="/styles/login.css">
+	  <link rel="stylesheet" href="/styles/font-awesome.min.css">
+    <link rel="shortcut icon" href="/fontsImg/lock.png" />
+		<!-- Google Fonts -->
+		<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+		<title>Client Login</title>
+	</head>
+	<body>
+		<div class="container" id="signUpSection">
+			<div class="row main">
+				<div class="panel-heading">
+           <div class="panel-title text-center">
+           		<h1 class="title">passContain Signup</h1>
+           		<hr />
+           	</div>
+        </div>
+				<div class="main-login main-center">
+					<form class="form-horizontal" role="form" method="post" data-toggle="validator" id="signUpForm">
+
+						<div class="form-group">
+							<label for="name" class="cols-sm-2 control-label">Your Name</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="name" id="nameSignup"  placeholder="Enter your Name" required/>
+
+								</div>
+							</div>
+              <div class="help-block with-errors"></div>
+						</div>
+
+						<div class="form-group">
+							<label for="email" class="cols-sm-2 control-label">Your Email</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+									<input type="email" class="form-control" name="email" id="emailSignup"  placeholder="Enter your Email" data-error="Um, that email address is invalid" required/>
+								</div>
+							</div>
+              <div class="help-block with-errors"></div>
+						</div>
+
+						<div class="form-group">
+							<label for="password" class="cols-sm-2 control-label">Password</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" class="form-control" name="password" id="passwordSignup" minlength="8" placeholder="Enter your Password" required/>
+								</div>
+                <div class="help-block with-errors">Minimum of 8</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" class="form-control" name="confirm" id="confirmSignup" data-match="#passwordSignup" data-match-error="Whoops, these don't match" placeholder="Confirm your Password"/>
+								</div>
+							</div>
+              <div class="help-block with-errors"></div>
+						</div>
+
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary btn-lg btn-block signup-button">Register</button>
+						</div>
+						<div class="login-register">
+				         <a class="btn btn-default loginSectionLink" style="margin-right:15px;">Login</a>
+                 <a class="btn btn-default adminSectionLink">Admin</a>
+				    </div>
+					</form>
+				</div>
+			</div>
+		</div>
+    <div class="container" id="loginSection">
+      <div class="row main">
+        <div class="panel-heading">
+           <div class="panel-title text-center">
+           		<h1 class="title">passContain Login</h1>
+           		<hr />
+           	</div>
+        </div>
+        <div class="main-login main-center">
+					<form class="form-horizontal" role="form" method="post" data-toggle="validator" id="loginForm">
+
+						<div class="form-group">
+							<label for="email" class="cols-sm-2 control-label">Email</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+									<input type="email" class="form-control" name="email" id="emailLogin"  placeholder="Enter your Email" data-error="Please enter a full email" required/>
+								</div>
+							</div>
+              <div class="help-block with-errors"></div>
+						</div>
+
+						<div class="form-group">
+							<label for="password" class="cols-sm-2 control-label">Password</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" class="form-control" name="password" id="passwordLogin" minlength="1" placeholder="Password" required/>
+								</div>
+                <div class="help-block with-errors">Please enter password</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary btn-lg btn-block login-button">Login</button>
+						</div>
+						<div class="login-register">
+				         <a class="btn btn-default signUpSectionLink" style="margin-right:15px;">Sign Up</a>
+                 <a class="btn btn-default adminSectionLink">Admin</a>
+				    </div>
+					</form>
+				</div>
+      </div>
+    </div>
+    <div class="container" id="adminSection">
+      <div class="row main">
+        <div class="panel-heading">
+           <div class="panel-title text-center">
+           		<h1 class="title">passContain Administration</h1>
+           		<hr />
+           	</div>
+        </div>
+        <div class="main-login main-center">
+					<form class="form-horizontal" role="form" method="post" data-toggle="validator" id="adminForm">
+
+						<div class="form-group">
+							<label for="email" class="cols-sm-2 control-label">Username</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="username" id="usernameAdmin" placeholder="Username" required/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="password" class="cols-sm-2 control-label">Password</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" class="form-control" name="password" id="passwordAdmin" minlength="1" placeholder="Password" required/>
+								</div>
+                <div class="help-block with-errors">Please enter password</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary btn-lg btn-block admin-button">Admin Login</button>
+						</div>
+						<div class="login-register">
+				         <a class="btn btn-default signUpSectionLink" style="margin-right:15px;">Sign Up</a>
+                 <a class="btn btn-default loginSectionLink" style="margin-right:15px;">Log In</a>
+				    </div>
+					</form>
+				</div>
+      </div>
+    </div>
+    <script type="text/javascript" src="/scripts/jquery-min.js"></script>
+		<script type="text/javascript" src="/scripts/bootstrapScript.js"></script>
+    <script type="text/javascript" src="/scripts/bootstrapValidator.js"></script>
+    <script src="scripts/socket.io.min.js"></script>
+    <script type="text/javascript" src="/scripts/passContain.js"></script>
+	</body>
+</html>

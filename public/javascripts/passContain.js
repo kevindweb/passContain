@@ -1,58 +1,114 @@
 $(document).ready(function (){
-	console.log("sweet");
-	window.location.hash = "#container";
-	function waitSeconds(){
-		document.body.style.backgroundColor = "black";
-		document.getElementById("upwardsGreeting").style.color = "white";
-		document.getElementById("greeting").style.color = "white";
-		document.getElementById("lockIcon").style.color = "white";
-		document.getElementById("homePage").className = "";
-	};
-	// Add smooth scrolling to all links
-  	$("a").on('click', function(event) {
-		// Make sure this.hash has a value before overriding default behavior
-		if (this.hash !== "") {
-		  // Prevent default anchor click behavior
-		  event.preventDefault();
-
-		  // Store hash
-		  var hash = this.hash;
-
-		  // Using jQuery's animate() method to add smooth page scroll
-		  // The optional number (800) specifies the number of 
-		  // milliseconds it takes to scroll to the specified area
-		  $('html, body').animate({
-		    scrollTop: $(hash).offset().top
-		  }, 800, function(){
-
-		    // Add hash (#) to URL when done scrolling (default click behavior)
-		    window.location.hash = hash;
-		  });
-		} // End if
-  	});
-  	// end of smooth scrolling
-	function newPage(){
-		$("#pageDown").click();
-	};
-	$("#submitName").click(function (){
-		var username = $("#userName").val();
-		if(username!==""&&username!==" "){
-			$("#userNamez").text(" "+username);
-			$("#userID").text(username);
-			$("#introduction").fadeOut();
-			var waiting = setInterval(waitSeconds,400);
-			var reloading = setInterval(newPage, 2700);
-		} else if(username===""){
-			document.getElementById("userName").placeholder = "please enter a character or word";
+	// socket functions
+	var thisPage = window.location.href.split('/').pop(),socket = io();
+	socket.on('emailSent',function(data){
+		if(data.res){
+			$("#formName").val("");
+			$("#formEmail").val("");
+			$("#formMessage").val("");
+			$("#formName").attr("placeholder","Message sent!");
 		} else{
-			$("#userName").val("please enter a character or word");
-		} 
-		
+			alert('Server error, please try again.');
+		}
 	});
 
+	// socket functions end
+	if(thisPage==''){
+		thisPage = '/';
+	}
+	function getSwitch(a){switch(a){case"/":getLogin();break;case"contact":getContact();break;case"contact?":getContact();break;default:getError();break;}}
+	getSwitch(thisPage);
+	function getError(){
+		socket.emit('errorPageData',{pageName:thisPage});
+	}
+	function getContact(){
+	  $("#submitMessage").click(function(e){
+	     e.preventDefault();
+	     message = {};
+	     message.from = '"'+$("#formName").val()+'" <gravfieldgame@gmail.com>';
+	     message.to = 'gravfieldgame@gmail.com';
+	     message.subject = 'Regarding gravField';
+	     message.html = '<h3>My name is:</h3><p>'+$("#formName").val()+'</p><br><h3>My message is:</h3><p>'+$("#formMessage").val()+'</p><br><h3>My email is:</h3><p>'+$("#formEmail").val()+'</p>';
+	  	 socket.emit('sendEmail',message);
+	  });
+	}
+	function getLogin(){
+		var loginTruth = false;
+		var adminTruth = false;
+		var section = '';
+		$(".loginSectionLink").click(function(e){
+			e.preventDefault();
+			if(loginTruth){
+				section = 'loginSection';
+			} else if(adminTruth){
+				section = 'adminSection';
+			} else{
+				section  = 'signUpSection';
+			}
+			$("#"+section).hide(300);
+			setTimeout(function(){
+				$("#loginSection").show(300);
+			},290);
+			loginTruth = true;
+			adminTruth = false;
+		});
+		$(".signUpSectionLink").click(function(e){
+			e.preventDefault();
+			if(loginTruth){
+				section = 'loginSection';
+			} else if(adminTruth){
+				section = 'adminSection';
+			} else{
+				section  = 'signUpSection';
+			}
+			$("#"+section).hide(300);
+			setTimeout(function(){
+				$("#signUpSection").show(300);
+			},290);
+			loginTruth = false;
+			adminTruth = false;
+		});
+		$(".adminSectionLink").click(function(e){
+			e.preventDefault();
+			if(loginTruth){
+				section = 'loginSection';
+			} else if(adminTruth){
+				section = 'adminSection';
+			} else{
+				section = 'signUpSection';
+			}
+			$("#"+section).hide(300);
+			setTimeout(function(){
+				$("#adminSection").show(300);
+			},290);
+			loginTruth = false;
+			adminTruth = true;
+		});
+		$(".login-button").click(function(e){
+			e.preventDefault();
+			if($)
+			$.post("/loginForm",$("#loginForm").serialize(),function(data, status){
 
+    	});
+		});
+		$(".signup-button").click(function(e){
+			e.preventDefault();
+			if($("#emailLogin").val()!=''&&$("#passwordLogin").val()!=''){
+				$.post("/signupForm",$("#signUpForm").serialize(),function(data, status){
 
-
-
-
+	    	});
+			}
+		});
+		$(".admin-button").click(function(e){
+			e.preventDefault();
+			if($("#usernameAdmin").val()!=''&&$("#passwordAdmin").val()!=''){
+				$.post("/adminForm",$("#adminForm").serialize(),function(data, status){
+					if(status){
+						console.log(status);
+					}
+					$("#usernameAdmin").val(JSON.stringify(data));
+	    	});
+			}
+		});
+	}
 });

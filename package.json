@@ -1,18 +1,36 @@
 {
   "name": "passcontainapp",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
+  "description": "Password securing application",
+  "main": "./bin/www",
   "scripts": {
+    "test":"npm start",
     "start": "node ./bin/www"
   },
+  "keywords": [
+    "passwords/files",
+    "passContain",
+    "html5-css3-nodejs-mongodb"
+  ],
+  "author": "Kevin Deems",
+  "license": "ISC",
   "dependencies": {
     "body-parser": "~1.15.2",
-    "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "express": "~4.14.0",
+    "nodemailer": "^4.0.1",
     "jade": "~1.11.0",
     "mongoose": "^4.9.1",
     "morgan": "~1.7.0",
-    "serve-favicon": "~2.3.0"
+    "socket.io": "^1.7.3"
+  },
+  "engines": {
+    "node": "6.9.2",
+    "npm":"3.10.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kevindweb/passContain"
   }
 }

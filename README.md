@@ -1,3 +1,5 @@
+# passContain
+
 This application, requires the use of the internet for connection to the database. This application will allow you to create a username and password for logins. You will then be asked to create 2 extra security measures, as well as fill out three questions, which you will need to remember. The point is that when you upload a file, or import all your important data, you will need to sign in and then verify that you know at least one of the three security parts
 
 What has been completed?
@@ -11,5 +13,5 @@ What needs to be done?
 
 Need to initialize?
 	- first terminal window - cd /usr/local/Cellar && sudo mongod --port 27106 --logpath /passwordSafety/passContainApp/mongoLogs/mongoPort27106.log --logappend
-	- second terminal (new tab from first) - sudo mongo --port 27106 
+	- second terminal (new tab from first) - sudo mongo --port 27106
 	- third terminal - cd /passwordSafety/passContainApp && nodemon start

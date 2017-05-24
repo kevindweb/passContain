@@ -1,0 +1,137 @@
+body{
+	width:100%;
+	height:100%;
+	background:#333333;
+	font-family: 'Oxygen', sans-serif;
+}
+
+
+h1 {
+	font-family: 'Passion One', cursive;
+	margin:0 0 35px 0;
+	font-size:300%;
+	text-transform: uppercase;
+	letter-spacing:2px;
+}
+h2 {
+	font-family: 'Passion One', cursive;
+	margin:0 0 35px 0;
+	font-size:250%;
+	text-transform: uppercase;
+	letter-spacing:2px;
+}
+
+p{
+	margin:0 0 25px;
+	font-size:18px;
+	line-height:1.6em;
+}
+a{
+	color:#26a5d3;
+}
+a:hover,a:focus{
+	text-decoration:none;
+	color:#26a5d3;
+}
+
+#contact{
+	background:#333333;
+	color:#f4f4f4;
+	padding-bottom:80px;
+}
+
+textarea.form-control{
+    height:100px;
+}
+.row{
+	background-color:black;
+	transition: background-color 1s ease-in-out;
+}
+
+.row:hover{
+	background-color: rgb(51,51,51);
+}
+
+ul.social-network {
+	list-style: none;
+	display: inline;
+	margin-left:0 !important;
+	padding: 0;
+}
+ul.social-network li {
+	display: inline;
+	margin: 0 5px;
+}
+/* footer social icons */
+.social-network a.icoFacebook:hover {
+	background-color:#3B5998;
+}
+.social-network a.icoGithub:hover {
+	background-color:#fafafa;
+}
+.social-network a.icoGoogle:hover {
+	background-color:#BD3518;
+}
+.social-network a.icoLinkedin:hover {
+	background-color:#007bb7;
+}
+.social-network a.icoLinkedin:hover .fa-linkedin{
+	color: black;
+}
+.social-network a.icoGoogle:hover .fa-google-plus{
+	color: black;
+}
+.social-network a.icoFacebook:hover .fa-facebook{
+	color: black;
+}
+.social-network a.icoGithub:hover .fa-github{
+	color: black;
+}
+.social-network a.icoFacebook:hover i, .social-network a.icoGithub:hover i,
+.social-network a.icoGoogle:hover i, .social-network a.icoLinkedin:hover i {
+	color:#fff;
+}
+a.socialIcon:hover, .socialHoverClass {
+	color:#44BCDD;
+}
+
+.social-circle li a {
+	display:inline-block;
+	position:relative;
+	margin:0 auto 0 auto;
+	-moz-border-radius:50%;
+	-webkit-border-radius:50%;
+	border-radius:50%;
+	text-align:center;
+	width: 50px;
+	height: 50px;
+	font-size:20px;
+}
+.social-circle li i {
+	margin:0;
+	line-height:50px;
+	text-align: center;
+}
+
+.social-circle li a:hover i, .triggeredHover {
+	-moz-transform: rotate(360deg);
+	-webkit-transform: rotate(360deg);
+	-ms--transform: rotate(360deg);
+	transform: rotate(360deg);
+	-webkit-transition: all 0.2s;
+	-moz-transition: all 0.2s;
+	-o-transition: all 0.2s;
+	-ms-transition: all 0.2s;
+	transition: all 0.2s;
+}
+.social-circle i {
+	color: #fff;
+	-webkit-transition: all 0.8s;
+	-moz-transition: all 0.8s;
+	-o-transition: all 0.8s;
+	-ms-transition: all 0.8s;
+	transition: all 0.8s;
+}
+.fa{
+	transition: color .2s;
+}
