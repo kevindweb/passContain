@@ -12,6 +12,6 @@ What needs to be done?
 	- connect server file to md5, and allow for continuous validation of strings
 
 Need to initialize?
-	- first terminal window - cd /usr/local/Cellar && sudo mongod --port 27106 --logpath /passwordSafety/passContainApp/mongoLogs/mongoPort27106.log --logappend
+	- first terminal window - cd /usr/local/Cellar && sudo mongod --port 27106 --logpath /Users/kevindeems/projects/passContain/mongoLogs/mongoPort27106.log --logappend
 	- second terminal (new tab from first) - sudo mongo --port 27106
 	- third terminal - cd /passwordSafety/passContainApp && nodemon start

@@ -22,9 +22,6 @@ io.sockets.on('connection', function (socket) {
     socket.on('sendEmail',function(data){
       app.emailMe(data,socket);
     });
-		socket.on('errorPageData',function(data){
-			app.updateErrorPage(data);
-		});
     socket.on('disconnect', function (){
       connections.splice(connections.indexOf(socket),1);
     });

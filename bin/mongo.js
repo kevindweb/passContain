@@ -4,15 +4,15 @@ var mongoose = require('mongoose'),
     exports = module.exports = {};
 // here is all the mongoDB queries and data
 //
-// var url = 'mongodb://localhost:27106/passwordSafety';
-//
-// mongoose.connect(url, function(err,db){
-// 	if(err){
-// 		console.log(err);
-// 	} else{
-// 		console.log("Connected to the local mongoDB server");
-// 	}
-// });
+var url = 'mongodb://localhost:27106/passwordSafety';
+
+mongoose.connect(url, function(err,db){
+	if(err){
+		console.log(err);
+	} else{
+		console.log("Connected to the local mongoDB server");
+	}
+});
 
 // here are the variables and the Schema for the application
 var db = mongoose.connection;
@@ -28,66 +28,113 @@ var userInfoModel = new Schema({
 			questionNumberThree: {type: String,required:true}
 		}
 	}
+}), mySchema = new Schema({
+  _id:{type:String},
+  name:{type:String},
+  employed:{type:Boolean},
+  business:{type:String},
+  cool:{type:Boolean}
+}), userSignup = new Schema({
+  _id:{type:String,required:true},
+  name:{type:String,required:true},
+  email:{type:String,required:true},
+  password:{type:String,required:true}
+}), adminLogin = new Schema({
+  _id:{type:String,required:true},
+  username:{type:String,required:true},
+  password:{type:String,required:true}
 });
-// var mySchema = new Schema(
-//   {_id:{type:String},
-//   name:{type:String},employed:{type:Boolean},business:{type:String},cool:{type:Boolean}});
-// var myModel = mongoose.model('firstCollection',);
-// var user = mongoose.model('secondcollection', new Schema({_id:{type:String,required:true},username:{type:String,required:true},password:{type:String,required:true},age:{type:String}}));
-// var userInformation = mongoose.model('thirdcollection',userInfoModel);
-// // as the database opens, we insert an initial
-// // document to ensure that it goes well
+
+var myModel = mongoose.model('firstCollection',mySchema);
+var user = mongoose.model('secondcollection', userSignup);
+var admin = mongoose.model('admincollections', adminLogin);
+var userInformation = mongoose.model('thirdcollection',userInfoModel);
+// as the database opens, we insert an initial
+// document to ensure that it goes well
 //
 // db.once('open', function(){
 // 	var isReady = false;
-// 	new myModel({
-// 		_id:(Math.random()*1000).toFixed(3),
-// 		name:'startCollection',
+//   var password = runFunction('!easy2Remember');
+// 	new admin({
+// 		_id:mongoose.Types.ObjectId(),
+// 		username:'kevindweb',
+//     password:password
 // 	}).save(function(err, doc){
 // 		if(err){
 // 			console.log(err);
-// 		} else{
-// 			console.log('Database collection initialized');
 // 		}
 // 	});
 // });
-//
-// // when we need to log in with mongodb
-// app.post('/mongoSignUp', function(req, res){
-// 	var newEmail = runFunction(req.body.email);
-// 	var newPass = runFunction(req.body.password);
-// 	var username = runFunction(req.body.email.split('@')[0]);
-// 	var newAge = runFunction(req.body.age);
-// 	new user({
-// 		_id : newEmail,
-// 		username: username,
-// 		password: newPass,
-// 		age: newAge
-// 	}).save(function(err,doc){
-// 		if(err){
-// 			console.log(err);
-// 		} else{
-// 			console.log('we had success signing up');
-// 			res.render('loggedIn',{username: req.body.email, password: req.body.password});
-// 		}
-// 	});
-// });
-// // and when we need someone to sign in with their credentials
+// check to see if email is a duplicate
+exports.duplicate = function(data,callback){
+  user.find({email:data.email}, function(err,docs){
+		if(err){
+			callback(err,null,'Your inputs might be correct, but database is having trouble. Try again.');
+		} else if(docs===null||docs[0]===undefined){
+      callback(null,null);
+		} else{
+      callback(null,docs);
+		}
+	});
+}
+// and when we need someone to sign in with their credentials
+exports.signup = function(data,callback){
+  var newObj = {};
+  for (var variable in data) {
+    if(variable=='password'){
+      newObj[variable] = runFunction(data[variable]);
+    } else{
+      newObj[variable] = data[variable];
+    }
+  }
+	new user({
+		_id : mongoose.Types.ObjectId(),
+    name: newObj.name,
+		email: newObj.email,
+		password: newObj.password,
+	}).save(function(err,doc){
+		if(err){
+      callback(err,null,'Error');
+		} else{
+      callback(null,doc,'Success');
+			console.log('we had success signing up');
+		}
+	});
+}
+// when we need to log in with mongodb
+exports.login = function(data,callback){
+  var emailLogin = data.email;
+  var passwordLogin = runFunction(data.password);
+	user.find({email:emailLogin,password:passwordLogin}, function(err,docs){
+		if(err){
+			callback(err,null,'Your inputs might be correct, but database is having trouble. Try again.');
+		} else if(docs===null||docs[0]===undefined){
+      callback(null,null,'We could not find a user with these credentials.');
+		} else{
+      callback(null,docs[0],'Success');
+		}
+	});
+}
+exports.admin = function(data,callback){
+  var usernameAdmin = data.username;
+  var passwordAdmin = runFunction(data.password);
+	admin.find({username:usernameAdmin,password:passwordAdmin}, function(err,docs){
+		if(err){
+			callback(err,null,'Database is having trouble.');
+		} else if(docs===null||docs[0]===undefined){
+      callback(null,null,'You are an admin, you should know this.');
+		} else{
+      callback(null,docs[0],'Success');
+		}
+	});
+}
+
+
+
 // app.post('/mongoLogin', function(req,res){
 // 	var emailLogin = runFunction(req.body.emailLogin);
 // 	var passwordLogin = runFunction(req.body.passwordLogin);
-// 	user.find({_id:emailLogin,password:passwordLogin}, function(err,docs){
-// 		if(err){
-// 			console.log(err);
-// 			res.send('There was an error with the server connection. please try again');
-// 		} else if(docs===null||docs[0]===undefined){
-// 			res.render('login',{message:'We could not find your username and password, please try again'});
-// 		} else{
-// 			var username = req.body.emailLogin;
-// 			var password = req.body.passwordLogin;
-// 			res.render('loggedIn',{username: username, password: password});
-// 		}
-// 	});
+
 // });
 //
 // // create a secure password set for the current user

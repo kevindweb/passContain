@@ -7,11 +7,17 @@ var express = require('express'),
     jsPath = path.join(__dirname+'/public/javascripts'),
     cssPath = path.join(__dirname+'/public/stylesheets'),
     fontImgPath = path.join(__dirname+'/public/fontsAndImages'),
-		mongoose = require('./bin/mongo.js');
+		mongoose = require('./bin/mongo.js'),
+    cookieParser = require('cookie-parser');
 
 app.use(bodyParser.urlencoded({
 	extended: false
 }));
+
+app.use(cookieParser());
+
+// set a cookie
+
 
 // view engine setup
 app.set('public',viewPath);
@@ -29,10 +35,37 @@ app.set('view engine', 'jade');
 
 // send me to the root of the application
 app.get('/', function(req,res){
-	res.sendFile(path.join(__dirname+'/public/html/login.html'));
+
+	res.clearCookie('username')
+    .clearCookie('name')
+    .clearCookie('email')
+    .sendFile(path.join(__dirname+'/public/html/login.html'));
 });
 app.get('/contact', function(req, res){
 	res.sendFile(path.join(__dirname+'/public/html/contact.html'));
+});
+app.get('/admin/:username',function(req,res){
+  res.cookie('username',req.params.username)
+    .redirect('/admin');
+});
+app.get('/home/:name/:email',function(req,res){
+  res.cookie('name',req.params.name)
+    .cookie('email',req.params.email)
+    .redirect('/home');
+});
+app.get('/admin',function(req,res){
+  if(req.cookies.username==''||req.cookies.username==undefined||req.cookies.username==null){
+    res.redirect('/login');
+    return;
+  }
+  res.sendFile(path.join(__dirname+'/public/html/admin.html'));
+});
+app.get('/home',function(req,res){
+  if(req.cookies.name==''||req.cookies.email==''||req.cookies.name==undefined||req.cookies.email==undefined){
+    res.redirect('/login');
+    return;
+  }
+  res.sendFile(path.join(__dirname+'/public/html/index.html'));
 });
 //send the js files
 app.get('/login.js', function(req, res){
@@ -66,7 +99,30 @@ app.get('/login', function(req,res){
 app.post('/signupForm',function(req,res){
   var data = req.body;
   if(data){
-    res.send('Success');
+    mongoose.duplicate(data, function(err,docs){
+      if(err){
+        res.send(err);
+        return;
+      } else if(docs){
+        console.log(docs);
+        res.send('This email is being used. Please enter a new one.');
+        return;
+      } else{
+        mongoose.signup(data,function(err,doc,status){
+          if(err){
+            console.log(err);
+            res.send(status);
+            return;
+          } else{
+            var obj = {};
+            obj.name = doc.name;
+            obj.email = doc.email;
+            res.send(obj);
+            return;
+          }
+        });
+      }
+    });
   } else{
     res.send('Failure to log in.');
   }
@@ -74,7 +130,23 @@ app.post('/signupForm',function(req,res){
 app.post('/loginForm',function(req,res){
   var data = req.body;
   if(data){
-    res.send('Success');
+    mongoose.login(data,function(err,doc,status){
+      if(err){
+        console.log(err);
+        res.send(status);
+        return;
+      } else if(!doc){
+        console.log(status);
+        res.send(status);
+        return;
+      } else{
+        var obj = {};
+        obj.name = doc.name;
+        obj.email = doc.email;
+        res.send(obj);
+        return;
+      }
+    });
   } else{
     res.send('Failure to log in.');
   }
@@ -82,7 +154,21 @@ app.post('/loginForm',function(req,res){
 app.post('/adminForm',function(req,res){
   var data = req.body;
   if(data){
-    res.send('Success');
+    mongoose.admin(data,function(err,doc,status){
+      if(err){
+        console.log(err);
+        res.send(status);
+        return;
+      } else if(!doc){
+        res.send(status);
+        return;
+      } else{
+        var obj = {};
+        obj.username = doc.username;
+        res.send(obj.username);
+        return;
+      }
+    });
   } else{
     res.send('Failure to log in.');
   }
@@ -99,9 +185,6 @@ app.post('/makeFiles',function(req,res){
 	res.render('makeFiles',{data:data});
 });
 
-app.updateErrorPage = function(pageName){
-  // put page name in a mongodb collection
-}
 // end of mongodb
 
 app.use(function(req,res){

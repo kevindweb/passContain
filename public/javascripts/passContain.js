@@ -16,7 +16,7 @@ $(document).ready(function (){
 	if(thisPage==''){
 		thisPage = '/';
 	}
-	function getSwitch(a){switch(a){case"/":getLogin();break;case"contact":getContact();break;case"contact?":getContact();break;default:getError();break;}}
+	function getSwitch(a){switch(a){case"admin":getAdmin();break;case"home":getHome();break;case"/":getLogin();break;case"contact":getContact();break;case"contact?":getContact();break;default:getError();break;}}
 	getSwitch(thisPage);
 	function getError(){
 		socket.emit('errorPageData',{pageName:thisPage});
@@ -86,16 +86,25 @@ $(document).ready(function (){
 		});
 		$(".login-button").click(function(e){
 			e.preventDefault();
-			if($)
-			$.post("/loginForm",$("#loginForm").serialize(),function(data, status){
-
-    	});
+			if($("#emailLogin").val()!=''&&$("#passwordLogin").val()!=''){
+				$.post("/loginForm",$("#loginForm").serialize(),function(data, status){
+					if(typeof data!=String){
+						window.location.replace('/home/'+data.name+'/'+data.email);
+					} else{
+						console.log(data);
+					}
+	    	});
+			}
 		});
 		$(".signup-button").click(function(e){
 			e.preventDefault();
-			if($("#emailLogin").val()!=''&&$("#passwordLogin").val()!=''){
+			if($("#confirmSignup").val()!=''){
 				$.post("/signupForm",$("#signUpForm").serialize(),function(data, status){
-
+					if(typeof data!=String){
+						window.location.replace('/home/'+encodeURIComponent(data.name)+'/'+encodeURIComponent(data.email));
+					} else{
+						console.log(data);
+					}
 	    	});
 			}
 		});
@@ -103,12 +112,24 @@ $(document).ready(function (){
 			e.preventDefault();
 			if($("#usernameAdmin").val()!=''&&$("#passwordAdmin").val()!=''){
 				$.post("/adminForm",$("#adminForm").serialize(),function(data, status){
-					if(status){
-						console.log(status);
+					if(data==$("#usernameAdmin").val()){
+						window.location.replace('/admin/'+encodeURIComponent(data));
+					} else{
+						$("#usernameAdmin").val(JSON.stringify(data));
 					}
-					$("#usernameAdmin").val(JSON.stringify(data));
 	    	});
 			}
 		});
+	}
+	function getAdmin(){
+		var stuff = document.cookie;
+		$("#title").text(decodeURIComponent(stuff.split('username=')[1]));
+	}
+	function getHome(){
+		var stuff = document.cookie;
+		stuff = stuff.split('name=')[1];
+		stuff = stuff.split('email=')[0];
+		stuff = decodeURIComponent(stuff.split(';')[0]);
+		$('#title').text('Welcome '+stuff);
 	}
 });
