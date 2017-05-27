@@ -9,9 +9,8 @@ What has been completed?
 What needs to be done?
 	- data encryption - either through mongoDB, or JavaScript encryption service
 	- putting files in the database and allowing for protection there
-	- connect server file to md5, and allow for continuous validation of strings
 
 Need to initialize?
 	- first terminal window - cd /usr/local/Cellar && sudo mongod --port 27106 --logpath /Users/kevindeems/projects/passContain/mongoLogs/mongoPort27106.log --logappend
 	- second terminal (new tab from first) - sudo mongo --port 27106
-	- third terminal - cd /passwordSafety/passContainApp && nodemon start
+	- third terminal - cd ~/projects/passContain && nodemon start

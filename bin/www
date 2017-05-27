@@ -3,7 +3,8 @@ var debug = require('debug')('passcontainapp:server');
 var http = require('http');
 var server = app.listen(3001);
 var io = require('socket.io')(server,{}),connections=[],nodemailer = require('nodemailer'),
-transporter = nodemailer.createTransport({service: 'gmail',auth: {user: 'gravfieldgame@gmail.com',pass: '!easy2Remember'}});
+transporter = nodemailer.createTransport({service: 'gmail',auth: {user: 'gravfieldgame@gmail.com',pass: '!easy2Remember'}}),
+browserClicks = {};
 /**
  * Get port from environment and store in Express.
  */
@@ -22,6 +23,30 @@ io.sockets.on('connection', function (socket) {
     socket.on('sendEmail',function(data){
       app.emailMe(data,socket);
     });
+		socket.on('clicked',function(data){
+			if(!browserClicks[data.id]){
+				browserClicks[data.id] = {};
+				browserClicks[data.id].last = Date.now();
+				browserClicks[data.id].clickCount = 1;
+				return;
+			} else{
+				var lastTime = Date.now()-browserClicks[data.id].last;
+				browserClicks[data.id].clickCount+=1;
+				if(lastTime>=4000){
+					// browserClicks[data.id].onAlert = false;
+					browserClicks[data.id].clickCount = 0;
+					browserClicks[data.id].last = Date.now();
+					console.log(lastTime);
+					return;
+				} else if(browserClicks[data.id].clickCount>4){
+					// browserClicks[data.id].onAlert = true;
+					socket.emit('alertClick');
+					return;
+				} else if(browserClicks[data.id].clickCount>10){
+					socket.emit('tooMany');
+				}
+			}
+		});
     socket.on('disconnect', function (){
       connections.splice(connections.indexOf(socket),1);
     });

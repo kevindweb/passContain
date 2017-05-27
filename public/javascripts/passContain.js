@@ -98,15 +98,18 @@ $(document).ready(function (){
 		});
 		$(".signup-button").click(function(e){
 			e.preventDefault();
-			if($("#confirmSignup").val()!=''){
-				$.post("/signupForm",$("#signUpForm").serialize(),function(data, status){
-					if(typeof data!=String){
-						window.location.replace('/home/'+encodeURIComponent(data.name)+'/'+encodeURIComponent(data.email));
-					} else{
-						console.log(data);
-					}
-	    	});
-			}
+			browserId = document.cookie;
+			browserId = browserId.split('randomBrowser=')[1];
+			socket.emit('clicked',{id:browserId});
+			// if($("#confirmSignup").val()!=''){
+			// 	$.post("/signupForm",$("#signUpForm").serialize(),function(data, status){
+			// 		if(typeof data!=String){
+			// 			window.location.replace('/home/'+encodeURIComponent(data.name)+'/'+encodeURIComponent(data.email));
+			// 		} else{
+			// 			console.log(data);
+			// 		}
+	    // 	});
+			// }
 		});
 		$(".admin-button").click(function(e){
 			e.preventDefault();
@@ -120,6 +123,9 @@ $(document).ready(function (){
 	    	});
 			}
 		});
+		$("#close").click(function(){
+			$(".alert").hide(200);
+		});
 	}
 	function getAdmin(){
 		var stuff = document.cookie;
@@ -130,6 +136,46 @@ $(document).ready(function (){
 		stuff = stuff.split('name=')[1];
 		stuff = stuff.split('email=')[0];
 		stuff = decodeURIComponent(stuff.split(';')[0]);
-		$('#title').text('Welcome '+stuff);
+		$('#title').text('Welcome, '+stuff);
+	  var trigger = $('.hamburger'),
+	      overlay = $('.overlay'),
+	     isClosed = false;
+
+	    trigger.click(function () {
+	      hamburger_cross();
+	    });
+
+	    function hamburger_cross() {
+
+	      if (isClosed == true) {
+	        overlay.hide(300);
+	        trigger.removeClass('is-open');
+	        trigger.addClass('is-closed');
+	        isClosed = false;
+	      } else {
+	        overlay.show(300);
+	        trigger.removeClass('is-closed');
+	        trigger.addClass('is-open');
+	        isClosed = true;
+	      }
+	  }
+	  $('[data-toggle="offcanvas"]').click(function () {
+	        $('#wrapper').toggleClass('toggled');
+	  });
+		$('.dropdown').on('show.bs.dropdown', function() {
+	    $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+	  });
+	  $('.dropdown').on('hide.bs.dropdown', function() {
+	    $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+	  });
 	}
+	// socket listeners
+	socket.on('alertClick',function(){
+		$(".alert").show(200);
+		console.log('Clicked too many times');
+	});
+	socket.on('tooMany',function(){
+		// hurtBrowser();
+		console.log('We are going to attack you...')
+	});
 });

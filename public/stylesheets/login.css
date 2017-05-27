@@ -90,3 +90,11 @@ i{
 .input-group-addon:hover i{
   color: black;
 }
+.alert{
+  position: fixed;
+  display: none;
+  top: 40%;
+  width:40%;
+  left: 30%;
+  z-index:9999;
+}

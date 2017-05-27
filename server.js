@@ -8,7 +8,8 @@ var express = require('express'),
     cssPath = path.join(__dirname+'/public/stylesheets'),
     fontImgPath = path.join(__dirname+'/public/fontsAndImages'),
 		mongoose = require('./bin/mongo.js'),
-    cookieParser = require('cookie-parser');
+    cookieParser = require('cookie-parser'),
+    randomList = [];
 
 app.use(bodyParser.urlencoded({
 	extended: false
@@ -18,7 +19,6 @@ app.use(cookieParser());
 
 // set a cookie
 
-
 // view engine setup
 app.set('public',viewPath);
 app.use('/scripts',express.static(jsPath));
@@ -27,15 +27,22 @@ app.use('/fontsImg',express.static(fontImgPath));
 
 app.set('view engine', 'jade');
 
-// app.get('/public/:sourceType/:sourceFile',function(req,res){
-// 	var sourceType = req.params.sourceType;
-// 	var sourceFile = req.params.sourceFile;
-// 	res.sendFile(__dirname+'/public/'+sourceType+'/'+sourceFile);
-// });
-
 // send me to the root of the application
 app.get('/', function(req,res){
-
+  var cookie = req.cookies.randomBrowser;
+  if(!cookie){
+    function randomCookie(){
+      var myRandom = Math.random();
+      // if we already have this random id - choose another
+      if(randomList.indexOf(myRandom==-1)){
+        randomList.push(myRandom);
+        res.cookie('randomBrowser',myRandom);
+      } else{
+         randomCookie();
+      }
+    }
+    randomCookie();
+  }
 	res.clearCookie('username')
     .clearCookie('name')
     .clearCookie('email')
@@ -45,12 +52,12 @@ app.get('/contact', function(req, res){
 	res.sendFile(path.join(__dirname+'/public/html/contact.html'));
 });
 app.get('/admin/:username',function(req,res){
-  res.cookie('username',req.params.username)
+  res.cookie('username',req.params.username,{maxAge:1000*60*10})
     .redirect('/admin');
 });
 app.get('/home/:name/:email',function(req,res){
-  res.cookie('name',req.params.name)
-    .cookie('email',req.params.email)
+  res.cookie('name',req.params.name,{maxAge:1000*60*10})
+    .cookie('email',req.params.email,{maxAge:1000*60*10})
     .redirect('/home');
 });
 app.get('/admin',function(req,res){
@@ -74,7 +81,7 @@ app.get('/login.js', function(req, res){
 
 // here is our jade file to send
 app.get('/runJade', function(req, res) {
-    res.render('first', {title:'we finally won'});
+    res.render('first',{data:'not nice'});
 });
 
 // getting the login.jade file for those with credentials
